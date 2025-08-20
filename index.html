@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Santamora • Confeitaria e café</title>
+  <meta name="description" content="Santamora Confeitaria — bolos, tortas e doces artesanais. Encomendas para eventos e delivery." />
+  <link rel="icon" type="image/x-icon" href="svgs/favicon.svg" >
+  <meta property="og:title" content="Santamora Confeitaria • Doces artesanais">
+  <meta property="og:description" content="Bolos, tortas e doces artesanais. Encomendas para eventos e delivery.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:image" content="svgs/og-cover.jpg"> <!-- troque pela sua imagem 1200x630 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#9f77ba">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Bakery",
+    "name": "Santamora Confeitaria",
+    "url": "https://seu-dominio.com",
+    "image": "https://seu-dominio.com/svgs/og-cover.jpg",
+    "telephone": "+55 47 96423-8875",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "R. Antônio Zimmermann, 127 - Centro",
+      "addressLocality": "Guaramirim",
+      "addressRegion": "SC",
+      "postalCode": "89270-000",
+      "addressCountry": "BR"
+    },
+    "sameAs": ["https://www.instagram.com/santamoracafe/"],
+    "openingHours": ["Tu-Fr 10:30-19:00","Sa 09:00-19:00","Su 14:00-19:00"]
+  }
+  </script>
+  <style>
+    :root {
+      /* blush (rosa da faixa) */
+      --rose-50:  #fcf3f2;
+      --rose-100: #f9e9e8;
+      --rose-200: #f6dddb;
+      --rose-300: #f2d0ce;
+      --rose-400: #eec1be; /* blush da faixa */
+      --rose-500: #caa4a2; /* acento (um pouco mais forte) */
+
+      /* roxo da faixa (primária/CTA) */
+      --berry-600:#9f77ba;
+      --berry-700:#c09ed2;
+      --berry-800:#e7daec;
+
+      /* creme da faixa (acento quente) */
+      --honey-400:#fff6e3;
+
+      /* neutros (mantidos p/ legibilidade) */
+      --choco-900:#1f1d1d;
+      --ink-700:#2a2a2a;
+      --ink-500:#585858;
+      --ink-300:#b5b5b5;
+
+      /* superfícies */
+      --bg:   #fcfbf9;  /* lavanda clarinha da faixa */
+      --card: #ffffff;
+      --radius: 18px;
+      --shadow: 0 8px 30px rgba(0,0,0,.08);
+
+      --step--2: clamp(.75rem, .7rem + .2vw, .88rem);
+      --step--1: clamp(.9rem, .85rem + .3vw, 1rem);
+      --step-0: clamp(1rem, .95rem + .6vw, 1.125rem);
+      --step-1: clamp(1.25rem, 1.1rem + 1vw, 1.5rem);
+      --step-2: clamp(1.5rem, 1.3rem + 1.6vw, 2rem);
+      --step-3: clamp(2rem, 1.6rem + 2.8vw, 2.75rem);
+      --step-4: clamp(2.5rem, 2rem + 4vw, 3.5rem);
+
+      --rot-slot: 12ch;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--ink-700); background: var(--bg);
+      font: 400 var(--step-0)/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", Ubuntu, "Helvetica Neue", sans-serif;
+    }
+
+    /* Utility */
+    .container { width: min(1150px, 92%); margin-inline: auto; }
+    .btn { display:inline-flex; align-items:center; gap:.6rem; padding:.9rem 1.15rem; border-radius: 999px; border: 1px solid transparent; text-decoration:none; font-weight:600; letter-spacing:.2px }
+    .btn.primary { background: var(--berry-600); color: #fff; box-shadow: var(--shadow); }
+    .btn.primary:focus , .btn.primary:hover { background: var(--berry-700); }
+    .btn.ghost { background: #fff; border-color: #fff3; color: var(--berry-600); }
+    .chip { display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .75rem; border-radius:999px; background: var(--rose-100); color: var(--berry-600); font-size: var(--step--2); font-weight:600; }
+    .hidden { display:none !important; }
+
+    /* Header */
+    header {
+      position: sticky; top:0; z-index: 50; backdrop-filter: blur(8px);
+      background: color-mix(in oklab, white 70%, transparent);
+      border-bottom: 1px solid #0001;
+    }
+    .nav { display:flex; align-items:center; justify-content:space-between; min-height:72px; }
+    .brand { display:flex; align-items:center; gap:.65rem; font-weight:800; color:var(--berry-600); text-decoration:none; letter-spacing:.3px }
+    .brand .logo-compact{ display:none; }
+
+    @media (max-width: 490px){
+      .brand .logo-full{ display:none; }
+      .brand .logo-compact{
+        display:grid; place-items:center;
+        width: 48px; height: 48px; border-radius: 50%; margin-bottom: .5rem;
+      }
+      /* o antigo .brand .logo tinha width:11rem; força auto para não ocupar espaço */
+      .brand .logo{ width:auto; height:32px; }
+    }
+    .nav ul { display:flex; gap:1rem; list-style:none; padding:0; margin:0; }
+    .nav a {
+      text-decoration:none;
+      color: var(--ink-700);font-weight:600;padding:.5rem .75rem;border-radius:999px;background-image: linear-gradient(currentColor,currentColor);background-size: 0% 2px; background-repeat:no-repeat; background-position: 0 100%;transition: background-size .25s ease, color .25s ease;
+    }
+    .nav a:hover{
+      background-color: var(--rose-100); /* não usar 'background' p/ não zerar a image */
+      color: var(--berry-600);
+      background-size: 100% 2px;
+    }
+    #fazer-pedido:hover { background: var(--rose-100); color: var(--berry-600); }
+    .nav-cta { display:flex; gap:.6rem; align-items:center }
+
+    
+
+    /* Hero */
+    .hero { position: relative; padding: 72px 0 48px; overflow: hidden; }
+    .hero .grid { display:grid; grid-template-columns: 1.1fr .9fr; gap: 2.5rem; align-items: center; }
+    .eyebrow { font-size: var(--step--1); color: var(--berry-600); font-weight: 800; text-transform: uppercase; letter-spacing: .12em }
+    h1 { font-size: var(--step-4); line-height: 1.04; margin: .4rem 0 1rem; color: var(--choco-900); font-weight: 900 }
+    .lead { font-size: var(--step-1); color: var(--ink-500); margin: 0 0 1.25rem }
+    .cta-row { display:flex; gap:.8rem; flex-wrap: wrap; align-items:center }
+
+    /* Hero media carousel */
+    .hero-media { position: relative; border-radius: var(--radius); overflow: clip; box-shadow: var(--shadow) }
+    .slides { position: relative; aspect-ratio: 4/3; }
+    .slide { position:absolute; inset:0; opacity:0; transition: opacity .8s ease; }
+    .slide img { width:100%; height:100%; object-fit: cover; display:block; }
+    .slide.active { opacity:1 }
+    .slider-dots { position:absolute; inset:auto 0 10px 0; display:flex; gap:.2rem; justify-content:center; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#ffffff2c; border:1px solid #fff; cursor:pointer }
+    .dot.active { background: #fff; border-color: #0002 }
+    .hero-button { width: 1rem; height: 1rem; scale: 0.5;}
+
+    /* Highlights */
+    .highlights { display:grid; grid-template-columns: repeat(3,1fr); gap:1rem; margin-top: 1rem; }
+    .hi { padding: .9rem 1rem; border-radius: 14px; background: #fff; box-shadow: var(--shadow); display:flex; gap:.7rem; align-items:flex-start }
+    .hi svg { flex: 0 0 22px }
+    .hi p { margin:.15rem 0 0; font-size: var(--step--1); color: var(--ink-700) }
+
+    /* Section headings */
+    .section { padding: 64px 0; }
+    .section h2 { font-size: var(--step-3); margin:0 0 .5rem; color: var(--choco-900) }
+    .section p.sub { color: var(--ink-500); margin: 0 0 1.25rem }
+
+    /* Products carousel */
+    .products-track{
+      display:flex; gap:1rem;
+      overflow-x:auto; overflow-y:hidden;
+      scroll-snap-type: inline proximity;     /* menos “puxado” que mandatory */
+      scroll-padding-inline: 1rem;
+      padding-bottom:.5rem;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-inline: contain;
+      scrollbar-gutter: stable;               /* evita “pulo” quando a barra aparece */
+    }
+    .product{
+      flex: 0 0 280px;                        /* largura fixa por card (melhor que min-width) */
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    /* opcional: deixa a barra discreta; remova se não quiser customização */
+    .products-track::-webkit-scrollbar{ height:8px }
+    .products-track::-webkit-scrollbar-thumb{ background:#0002; border-radius:999px }
+    .product img { width:100%; height: 190px; object-fit: cover; display:block }
+    .product .info { padding: .9rem 1rem }
+    .price { color: var(--berry-600); font-weight: 800 }
+
+    /* Gallery */
+    .masonry { columns: 3 280px; column-gap: 1rem; }
+    .masonry figure { break-inside: avoid; margin:0 0 1rem; position:relative; overflow: clip; border-radius: 14px; box-shadow: var(--shadow) }
+    .masonry img { width:100%; height:auto; display:block }
+    #masonrystackimg { width: 100%;; height: 120%; display:block; object-fit: cover; }
+    #masonrystack { width:100%; height:17rem; display:block }
+    .masonry figcaption { position:absolute; inset:auto 8px 8px 8px; background: linear-gradient(to top, rgba(0,0,0,.45), transparent 60%); color:#fff; padding:.4rem .6rem; border-radius:10px; font-size: var(--step--1); }
+
+    /* Testimonials */
+    .testis { display:grid; grid-template-columns: repeat(3,1fr); gap: 1rem }
+    .quote { background:#fff; border-radius: 14px; padding: 1rem 1.1rem; box-shadow: var(--shadow) }
+    .stars { color: #f59e0b; font-size: 1.1rem }
+
+    /* About */
+    .about { display:grid; grid-template-columns: .9fr 1.1fr; gap: 1.5rem;}
+    .about .card { background:#fff; border-radius: var(--radius); box-shadow: var(--shadow); padding: 1rem 1.25rem;  align-items:center }
+
+    /* Contact */
+    .contact-grid { display:grid; grid-template-columns: .8fr 1.2fr; gap:1rem; }
+    .contact-card { background:#fff; border-radius: var(--radius); box-shadow: var(--shadow); padding:1rem 1.25rem }
+    .contact-card a { color: var(--berry-600); font-weight:700 }
+    .map { background: repeating-linear-gradient(45deg, #f6f6f6, #f6f6f6 10px, #ededed 10px, #ededed 20px); height: 500px; border-radius: var(--radius); display:grid; place-items:center; color:#999; border:1px dashed #ddd }
+
+    /* Footer */
+    footer { padding: 28px 0 40px; color: #6b6b6b; }
+    .foot { display:flex; gap: 1rem; justify-content:space-between; align-items:center; flex-wrap: wrap }
+    .social { display:flex; gap:.6rem }
+    .social a { width:38px; height:38px; display:grid; place-items:center; border-radius: 10px; background:#fff; box-shadow: var(--shadow); }
+    .social a:hover { width:38px; height:38px; display:grid; place-items:center; border-radius: 10px; background: var(--rose-100); box-shadow: var(--shadow); }
+
+    /* Media queries */
+    @media (max-width: 1024px){ .hero .grid{ grid-template-columns: 1fr } .highlights{ grid-template-columns:1fr 1fr 1fr } header{margin-bottom: -3rem;} }
+    @media (max-width: 820px){ .testis{ grid-template-columns:1fr 1fr } .about{ grid-template-columns:1fr } .contact-grid{ grid-template-columns:1fr } header{margin-bottom: -3rem;} }
+    @media (max-width: 640px){ .highlights{ grid-template-columns:1fr } .product{ min-width: 75% } header{margin-bottom: -3rem;} }
+
+    /* ===== título com palavra digitando ===== */
+    .gradient-text{
+      background: linear-gradient(90deg,var(--berry-600),var(--berry-800));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+      background-size: 200% 100%;
+      animation: glide 6s linear infinite;
+    }
+    @keyframes glide{ to{ background-position: 200% 0 } }
+    #rotating-word{ position:relative; white-space:nowrap }
+    #rotating-word.gradient-text{
+      background-size: 100% 100% !important;
+      animation: none !important;
+    }
+
+    /* pequenos ajustes no cursor para ficar mais estável */
+    #rotating-word::after{
+      height: .85em;
+      transform: translateY(.05em);
+      opacity: .8;
+    }
+
+    /* se o usuário preferir menos movimento, já respeita */
+    @media (prefers-reduced-motion: reduce){
+      .gradient-text{ animation: none !important; }
+    }
+
+    .rot-slot{ display:inline-block; inline-size: var(--rot-slot) }
+
+    .hero-title{ font-size: var(--step-4); line-height: 1.04; margin: .4rem 0 1rem; color: var(--choco-900); font-weight: 900; text-wrap: wrap; }
+    .hero-title .t1,.hero-title .t2,.hero-title .t3{ display:inline }
+
+    /* em telas pequenas, libera a quebra normal */
+    @media (max-width:560px){
+      .hero-title .t1,.hero-title .t2,.hero-title .t3{ display:block }
+      #rotating-word::after{ display:none }
+      .rot-slot{ inline-size:auto; }  /* deixa quebrar se faltar espaço */
+    }
+
+    /* === HAMBÚRGUER ===================================== */
+    /* Desktop: escondido */
+    .hamb{ display:none; }
+
+    /* Mobile: caixa correta e centralizada */
+    @media (max-width:950px){
+      .nav ul {display: none;}
+      .hamb{
+        position: relative;
+        display: inline-flex; align-items:center; justify-content:center;
+        width: 48px; height: 48px; padding: 0; cursor: pointer;
+        background:transparent; border:0px solid #0002;
+      }
+    }
+
+    /* As três linhas */
+    .hamb .hb{
+      position: relative;                 /* <- base das pseudo-linhas */
+      width: 22px; height: 2px;
+      background: var(--ink-700); border-radius: 2px;
+      transition: transform .25s ease;
+    }
+    .hamb .hb::before, .hamb .hb::after{
+      content:""; position:absolute; left:0;
+      width:22px; height:2px; background: var(--ink-700); border-radius:2px;
+      transition: transform .25s ease, opacity .2s ease;
+    }
+    .hamb .hb::before{ top:-6px; }
+    .hamb .hb::after{  top: 6px; }
+
+    /* Estado aberto (vira X) */
+    .hamb.is-open .hb{ background: transparent; }
+    .hamb.is-open .hb::before{ transform: translateY(6px) rotate(45deg); }
+    .hamb.is-open .hb::after{  transform: translateY(-6px) rotate(-45deg); }
+
+    .drawer{
+      /* mantém seu posicionamento atual; só polimos a cara */
+      border-top:1px solid #0001;
+      box-shadow: var(--shadow);
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+    .drawer:not(.hidden){
+      animation: menuDrop .25s ease both
+    }
+    @keyframes menuDrop{
+      from{opacity:0;
+        transform:translateY(-8px)
+      }
+      to{
+        opacity:1;
+        transform:translateY(0)
+      }
+    }
+    .drawer .container{ 
+      padding:.6rem .75rem 1rem 
+    } 
+    .drawer a{
+      display:block;
+      padding:.9rem 1rem;
+      border-radius:12px;
+      font-weight:700; 
+      color:var(--ink-700); 
+      text-decoration:none; 
+    } 
+    .drawer a:hover{ 
+      background:var(--rose-100); 
+      color:var(--berry-600) 
+    }
+
+    /* ===== micro-polimento visual (opcional mas recomendado) ===== */
+    .product, .quote, .hi, .hero-media, .about .card{ transition: transform .2s ease, box-shadow .2s ease }
+    .product:hover{ transform:translateY(-2px) }
+
+    /* Dialog clean + backdrop */
+    #lightbox{
+      padding:0 !important; border:none !important; background: transparent !important;
+      max-width: unset !important; width: auto !important;  /* não força largura */
+    }
+    #lightbox::backdrop{
+      background: rgb(0 0 0 / .65); backdrop-filter: blur(2px);
+    }
+
+    /* centraliza conteúdo e remove overflow */
+    #lightbox[open]{ display:grid; place-items:center; overflow: visible; }
+    #lightbox > div{ position:relative; margin:0; }
+
+    /* imagem contida na viewport (sem scroll interno) */
+    #lightbox-img{
+      display:block;
+      width:auto; height:auto;
+      max-width: min(96vw, 1200px);
+      max-height: 90vh;                 /* chave para não aparecer barra vertical */
+      border-radius:12px; box-shadow: var(--shadow);
+    }
+
+    /* botão “Fechar” no canto direito, sobre a imagem */
+    #lightbox-close{
+      position:absolute; top:10px; right:10px; z-index:2;
+      background:#fff; border:1px solid #0002; border-radius:999px;
+      padding:.45rem .8rem; font-weight:700; box-shadow: var(--shadow);
+    }
+    @media (hover:hover){
+      #lightbox-close{ opacity:.9; transition:.2s }
+      #lightbox-close:hover{ opacity:1; transform: translateY(-1px) }
+    }
+
+    /* ===== Loader ===== */
+    .app-loader{
+      position: fixed; inset: 0; z-index: 9999;
+      display: grid; place-items: center;
+      background: var(--bg);
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    .app-loader.is-fading{ opacity:0; visibility:hidden; pointer-events:none; }
+
+    .app-loader-card{
+      display:flex; flex-direction:column; align-items:center; gap:.65rem;
+      padding: 1.1rem 1.25rem; border-radius: 14px; background:#fff;
+      box-shadow: var(--shadow);
+    }
+    .app-loader-logo{ display:block; filter: drop-shadow(0 1px 0 #0001); }
+
+    .app-loader-dots{ display:flex; gap:.35rem; margin-top:.1rem }
+    .app-loader-dots span{
+      width:10px; height:10px; border-radius:50%;
+      background: var(--berry-600);
+      animation: bob .9s ease-in-out infinite alternate;
+    }
+    .app-loader-dots span:nth-child(2){ background: var(--rose-400); animation-delay: .12s; }
+    .app-loader-dots span:nth-child(3){ background: var(--honey-400); animation-delay: .24s; }
+    @keyframes bob{ from{ transform: translateY(0) } to{ transform: translateY(-6px) } }
+
+    .app-loader-label{ color: var(--ink-500); font-weight:600; letter-spacing:.02em }
+
+    /* respeito a quem prefere menos movimento */
+    @media (prefers-reduced-motion: reduce){
+      .app-loader-dots span{ animation: none }
+    }
+
+    .app-loader[hidden]{ display:none !important; }
+    html.lock{ overflow: hidden; }
+
+    [id]{ scroll-margin-top: 50px; }
+
+    .nav a:focus-visible, .btn:focus-visible, .drawer a:focus-visible{
+      outline: 3px solid color-mix(in oklab, var(--berry-600) 70%, white);
+      outline-offset: 2px; border-radius: 12px;
+    }
+
+    .nav a[aria-current="true"]{
+      color: var(--berry-600);
+      background-color: var(--rose-100);
+      background-size: 100% 2px;
+    }
+
+    .brand[aria-current]{ background: none !important; color: inherit !important; }
+
+    @media (min-width:950px) {
+      #produtos > .container {
+        width: min(1200px, 92%); margin-inline: auto;
+      }
+      .products-track{
+        justify-content: space-around;
+      }
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div id="app-loader" class="app-loader" hidden aria-hidden="true">
+  <div class="app-loader-card" role="status" aria-live="polite" aria-label="Carregando">
+    <img src="svgs/iso.svg" alt="" class="app-loader-logo" height="40">
+    <div class="app-loader-dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <small class="app-loader-label">carregando…</small>
+  </div>
+</div>
+  <a class="hidden" href="#conteudo">Pular para o conteúdo</a>
+  <header>
+    <div class="container nav" role="navigation" aria-label="Principal">
+      <a class="brand" href="#" aria-label="Santamora">
+        <!-- versão completa -->
+        <span class="logo logo-full">
+          <img src="svgs/tipo.svg" alt="Santamora" height="30">
+        </span>
+        <!-- versão compacta (ícone S) -->
+        <span class="logo logo-compact" aria-hidden="true">
+          <img src="svgs/iso.svg" alt="" height="42">
+        </span>
+      </a>
+      <nav aria-label="Links">
+        <ul id="nav-list">
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="#galeria">Galeria</a></li>
+          <li><a href="#depoimentos">Depoimentos</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>    
+        </ul>
+      </nav>
+      <div class="nav-cta">
+        <a class="btn primary" id="fazer-pedido" href="https://pedido.anota.ai/loja/santamora?f=msa" target="_blank" rel="noopener" aria-label="Fazer pedido online">Fazer pedido</a>
+        <button id="hamb" class="hamb" aria-expanded="false" aria-controls="drawer" aria-label="Abrir menu">
+          <span aria-hidden="true" class="hb"></span>
+        </button>
+      </div>
+    </div>
+    <div id="drawer" class="drawer hidden" role="dialog" aria-label="Menu móvel">
+      <div class="container">
+        <a href="#produtos">Produtos</a>
+        <a href="#galeria">Galeria</a>
+        <a href="#depoimentos">Depoimentos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container grid">
+        <div>
+          <span class="chip" style="margin-bottom: 1rem;">Artesanal • Feito com amor</span>
+          <div class="eyebrow" aria-hidden="true">Confeitaria</div>
+          <h1 class="hero-title">
+            <span class="t1">Santamora:</span>
+            <span class="t2">doces que</span>
+            <span class="t3">viram
+              <span class="rot-slot">
+                <span id="rotating-word" class="gradient-text">memórias</span>
+              </span>
+            </span>
+          </h1>
+          <p class="lead">Bolos, tortas e sobremesas autorais com ingredientes selecionados. Encomendas para aniversários, casamentos e eventos corporativos.</p>
+          <div class="cta-row">
+            <a class="btn primary" href="https://pedido.anota.ai/loja/santamora?f=msa" target="_blank" rel="noopener">Fazer pedido</a>
+            <a class="btn" style="background:var(--rose-100); color:var(--berry-600)" href="#produtos">Ver produtos</a>
+          </div>
+          <div class="highlights" aria-label="Diferenciais">
+            <div class="hi">
+              <img src="svgs/calendar.svg" alt="" height="32px" width="32px">
+              <p>Encomendas para <strong>eventos</strong> e datas especiais</p>
+            </div>
+            <div class="hi">
+              <img src="svgs/hatchef.svg" alt="" height="32px" width="32px">
+              <p>Receitas autorais e <strong>ingredientes selecionados</strong></p>
+            </div>
+            <div class="hi">
+              <img src="svgs/delivery.svg" alt="" height="32px" width="32px">
+              <p><strong>Delivery</strong> e retirada no balcão</p>
+            </div>
+          </div>
+        </div>
+        <div class="hero-media">
+          <div class="slides" id="hero-slides" aria-label="Galeria destaque">
+            <!-- TODO: Substitua as imagens abaixo pelas suas fotos reais -->
+            <div class="slide active"><img loading="eager" src="https://images.unsplash.com/photo-1692640848099-325af9b3f75f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bolo confeitado com frutas vermelhas"/></div>
+            <div class="slide"><img loading="lazy" src="https://plus.unsplash.com/premium_photo-1673337265958-720aaa08d4ee?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Torta de chocolate com morangos"/></div>
+            <div class="slide"><img loading="lazy" src="https://images.unsplash.com/photo-1556010042-70cd6e3433fa?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Doces finos em bandeja"/></div>
+          </div>
+          <div class="slider-dots" id="hero-dots" aria-label="Seleção de imagem"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Produtos -->
+    <section id="produtos" class="section">
+      <div class="container">
+        <h2>Nossos produtos</h2>
+        <p class="sub">Alguns destaques. Você pode personalizar sabores, tamanhos e decoração.</p>
+        <div class="products-track" id="produtos-track">
+          <!-- Substitua as imagens pelos seus produtos reais -->
+          <article class="product">
+            <img src="https://plus.unsplash.com/premium_photo-1714146022660-d9c01e9e6c8c?w=1200&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Bolo Red Velvet" loading="lazy"/>
+            <div class="info"><h3>Bolo Red Velvet</h3><p>Massa aveludada, cobertura cream cheese.</p><div class="price">Sob consulta</div></div>
+          </article>
+          <article class="product">
+            <img src="https://images.unsplash.com/photo-1534353875273-b5887cc1abf5?w=1200&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Torta de Limão" loading="lazy"/>
+            <div class="info"><h3>Torta de Limão</h3><p>Base crocante, creme cítrico e merengue maçaricado.</p><div class="price">Sob consulta</div></div>
+          </article>
+          <article class="product">
+            <img src="https://plus.unsplash.com/premium_photo-1667031519185-3dad7d8931cd?w=1200&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Doces Finos" loading="lazy"/>
+            <div class="info"><h3>Doces finos</h3><p>Seleção para casamentos e eventos.</p><div class="price">Sob consulta</div></div>
+          </article>
+          <article class="product">
+            <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=1200&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cupcakes variados" loading="lazy"/>
+            <div class="info"><h3>Cupcakes</h3><p>Sabores sazonais e clássicos.</p><div class="price">Sob consulta</div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galeria -->
+    <section id="galeria" class="section" aria-label="Galeria de fotos">
+      <div class="container">
+        <h2>Galeria</h2>
+        <p class="sub">Um gostinho do nosso trabalho. (Clique para ampliar)</p>
+        <div class="masonry" id="masonry">
+          <!-- Substitua por suas imagens; o lightbox usa data-full para abrir a versão grande -->
+          <figure>
+            <img src="https://images.unsplash.com/photo-1667933240070-8ac0757bdc8f?w=800&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Close de torta com merengue" loading="lazy" data-full="https://images.unsplash.com/photo-1667933240070-8ac0757bdc8f?w=1600&q=100&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+            <figcaption>Torta merengada</figcaption>
+          </figure>
+          <figure>
+            <img src="https://images.unsplash.com/photo-1636743715220-d8f8dd900b87?w=500&q=80&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Brownies" loading="lazy" data-full="https://images.unsplash.com/photo-1636743715220-d8f8dd900b87?w=1600&q=100&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+            <figcaption>Brownies</figcaption>
+          </figure>
+          <figure id="masonrystack">
+            <img src="https://plus.unsplash.com/premium_photo-1705433052895-752216a6a0f5" alt="Bolo com frutas" loading="lazy" data-full="https://plus.unsplash.com/premium_photo-1705433052895-752216a6a0f5?w=1600&q=100&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" id="masonrystackimg"/>
+            <figcaption>Bolo frutas vermelhas</figcaption>
+          </figure>
+          <figure id="masonrystack">
+            <img src="https://images.unsplash.com/photo-1685708709251-5aec2673c7fc" alt="Brigadeiros" loading="lazy" data-full="https://images.unsplash.com/photo-1685708709251-5aec2673c7fc?w=1600&q=100&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" id="masonrystackimg"/>
+            <figcaption>Brigadeiros</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="section" aria-label="Depoimentos de clientes">
+      <div class="container">
+        <h2>O que dizem por aí</h2>
+        <div class="testis">
+          <article class="quote"><div class="stars">★★★★★</div><p>“O bolo de pistache foi o destaque da festa. Entrega pontual e atendimento impecável.”</p><small>— Marina</small></article>
+          <article class="quote"><div class="stars">★★★★★</div><p>“Doces finos lindos e muito saborosos. Voltarei a encomendar!”</p><small>— Eduardo</small></article>
+          <article class="quote"><div class="stars">★★★★★</div><p>“Capricho em cada detalhe. A torta de limão é surreal.”</p><small>— Renata</small></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="section" aria-label="Sobre a Santamora">
+      <div class="container about">
+        <div class="media hero-media">
+          <img src="https://plus.unsplash.com/premium_photo-1664478299057-5d3ef1c57a01?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Confeiteira decorando bolo" style="width:100%; height:100%; object-fit:cover;" loading="lazy" />
+        </div>
+        <div class="card">
+          <h2>Nossa história</h2>
+          <p>Na Santamora, acreditamos que cada doce carrega uma lembrança. Começamos pequenas, em família, e crescemos levando carinho e técnica para cada receita. Trabalhamos sob encomenda para garantir frescor, personalização e uma experiência única.</p>
+          <ul>
+            <li>Eventos: aniversários, casamentos, corporativos;</li>
+            <li>Personalização de sabores e decoração;</li>
+            <li>Opções sazonais e dietas especiais sob consulta.</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn primary" href="https://pedido.anota.ai/loja/santamora?f=msa" target="_blank" rel="noopener">Fazer pedido</a>
+            <a class="btn ghost" href="#contato" style="background:#fff">Falar no WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contato" class="section" aria-label="Contato e localização">
+      <div class="container contact-grid">
+        <div class="contact-card">
+          <h2>Entre em contato</h2>
+          <p>Faça seu pedido online ou tire dúvidas sobre encomendas personalizadas.</p>
+          <p><strong>Pedido online:</strong> <a href="https://pedido.anota.ai/loja/santamora?f=msa" target="_blank" rel="noopener">pedido.anota.ai/loja/santamora</a></p>
+          <p><strong>WhatsApp:</strong> <a href="https://wa.me/554796423875" target="_blank" rel="noopener">Fale conosco</a> <!-- TODO: substituir número -->
+          <br><strong>Instagram:</strong> <a href="https://www.instagram.com/santamoracafe/" target="_blank" rel="noopener">@santamoracafe</a> <!-- TODO: link real -->
+          </p>
+          <p><strong>Horários:</strong> Ter–Sex 10:30h–19h • Sáb 9h–19h • Dom 14h–19h <!-- TODO: ajustar --></p>
+          <p class="chip">Encomendas com 48h de antecedência</p>
+        </div>
+        <div>
+          <iframe  loading="lazy" width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=500&amp;hl=en&amp;q=R.%20Ant%C3%B4nio%20Zimmermann,%20127%20-%20Centro,%20Guaramirim%20-%20SC,%2089270-000+(Santamora%20Confeitaria)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" class="map"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div style="display:flex; align-items:center; gap:.6rem">
+        <span class="logo" style="width:28px; height:28px; display:grid; place-items:center; border-radius:50%; background: radial-gradient(circle at 30% 30%, var(--rose-300), var(--rose-100));">
+          <img src="svgs/iso.svg" alt="" height="24px">
+        </span>
+        <small>© <span id="year"></span> Santamora Confeitaria — Todos os direitos reservados</small>
+      </div>
+      <div class="social" aria-label="Redes sociais">
+        <a href="https://www.instagram.com/santamoracafe/" aria-label="Instagram">
+          <!-- Instagram icon -->
+          <img src="svgs/instagram.svg" alt="" height="24px">
+        </a>
+        <a href="https://wa.me/554796423875" aria-label="WhatsApp">
+          <!-- WhatsApp icon -->
+          <img src="svgs/whatsapp.svg" alt="" height="24px">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+   
+  <dialog id="lightbox">
+    <div style="position:relative">
+      <button id="lightbox-close" class="btn">Fechar</button>
+      <img id="lightbox-img" alt="Imagem ampliada"/>
+    </div>
+  </dialog>
+
+  <button id="toTop" class="btn" style="position:fixed; right:1rem; bottom:1rem; opacity:0; pointer-events:none; transition:.3s; background:#fff; box-shadow: var(--shadow);">↑ Topo</button>
+
+  <script>
+    /* ===== Loader: sempre (abrir / F5) ===== */
+    (() => {
+      const loader = document.getElementById('app-loader');
+      if (!loader) return;
+
+      // mostra imediatamente e trava o scroll
+      loader.hidden = false;
+      document.documentElement.classList.add('lock');
+      loader.setAttribute('aria-hidden','false');
+
+      const hide = () => {
+        if (loader.dataset.done) return;           // garante uma vez só
+        loader.dataset.done = '1';
+        loader.classList.add('is-fading');         // usa seu fade do CSS
+        document.documentElement.classList.remove('lock');
+        loader.setAttribute('aria-hidden','true');
+        setTimeout(() => { loader.hidden = true; }, 350);
+      };
+
+      // sai quando a página termina de carregar / ou volta do histórico
+      window.addEventListener('load', hide, { once:true });
+      window.addEventListener('pageshow', e => { if (e.persisted) hide(); }, { once:true });
+
+      // fallback de segurança
+      setTimeout(hide, 5000);
+
+      // opcional: permite “pular” clicando no overlay
+      loader.addEventListener('click', hide, { once:true });
+    })();
+
+    // Util: on DOM ready
+    const ready = (fn) => (document.readyState !== 'loading') ? fn() : document.addEventListener('DOMContentLoaded', fn);
+
+    ready(() => {
+      // Year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Hero slider (auto + dots)
+      const slides = Array.from(document.querySelectorAll('#hero-slides .slide'));
+      const dotsWrap = document.getElementById('hero-dots');
+      let i = 0, timer;
+      const makeDots = () => {
+        slides.forEach((_, idx) => {
+          const b = document.createElement('button');
+          b.className = 'dot hero-button' + (idx === 0 ? ' active' : '');
+          b.setAttribute('aria-label', 'Slide ' + (idx+1));
+          b.addEventListener('click', () => go(idx));
+          dotsWrap.appendChild(b);
+        });
+      };
+      const go = (n) => {
+        slides[i].classList.remove('active');
+        slides[n].classList.add('active');
+        dotsWrap.children[i]?.classList.remove('active');
+        dotsWrap.children[n]?.classList.add('active');
+        i = n;
+      };
+      const next = () => go((i + 1) % slides.length);
+      const start = () => timer = setInterval(next, 4500);
+      const stop = () => timer && clearInterval(timer);
+      makeDots(); start();
+      document.getElementById('hero-slides').addEventListener('mouseenter', stop);
+      document.getElementById('hero-slides').addEventListener('mouseleave', start);
+
+      // Auto-scroll suave que PAUSA quando o usuário interage
+      const track = document.getElementById('produtos-track');
+      let rafId, dir = 1, running = false;
+
+      const atEnd = () => track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+
+      function tick(){
+        if(!running) return;
+        const max = track.scrollWidth - track.clientWidth;
+        track.scrollLeft = Math.max(0, Math.min(max, track.scrollLeft + dir));
+        if (track.scrollLeft <= 0 || atEnd()) dir *= -1;
+        rafId = requestAnimationFrame(tick);
+      }
+      function startAuto(){
+        if (!matchMedia('(pointer:fine)').matches) return; // só desktop/mouse
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (running) return;
+        running = true;
+        rafId && cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(tick);
+      }
+      function stopAuto(){ running = false; rafId && cancelAnimationFrame(rafId); }
+
+      startAuto();
+      track.addEventListener('mouseenter', stopAuto);
+      track.addEventListener('mouseleave', startAuto);
+      track.addEventListener('pointerdown', stopAuto);
+      track.addEventListener('touchstart', stopAuto, {passive:true});
+
+      // Lightbox for gallery
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbClose = document.getElementById('lightbox-close');
+      document.getElementById('masonry').addEventListener('click', (e) => {
+        const img = e.target.closest('img');
+        if (!img) return;
+        lbImg.src = img.dataset.full || img.src;
+        lb.showModal();
+      });
+      lbClose.addEventListener('click', () => lb.close());
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+
+      // Reveal on scroll (simple)
+      const revealEls = document.querySelectorAll('.product, .quote, .hi, .about .card, .hero-media');
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(ent=>{
+          if(ent.isIntersecting){
+            ent.target.animate([
+              { opacity:0, transform:'translateY(12px)' },
+              { opacity:1, transform:'translateY(0)' }
+            ], { duration: 500, easing:'ease-out', fill:'forwards' });
+            io.unobserve(ent.target);
+          }
+        });
+      }, { threshold: .12 });
+      revealEls.forEach(el => io.observe(el));
+
+      // To top button
+      const toTop = document.getElementById('toTop');
+      window.addEventListener('scroll', () => {
+        const show = window.scrollY > 600;
+        toTop.style.opacity = show ? 1 : 0;
+        toTop.style.pointerEvents = show ? 'auto' : 'none';
+      });
+      toTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+      /* === Palavra com efeito de digitação + rotação === */
+      const rot = document.getElementById('rotating-word');
+      if (rot){
+        const words = ['memórias', 'carinho', 'amor', 'celebrações', 'sabores'];
+        typeWords(rot, words, 85, 2500);
+      }
+      function typeWords(el, words, speed=90, pause=1200){
+        let i = 0, j = 0, del = false;
+        (function loop(){
+          const w = words[i];
+          el.textContent = del ? w.slice(0, --j) : w.slice(0, ++j);
+          if (!del && j === w.length){ del = true; return setTimeout(loop, pause); }
+          if (del && j === 0){ del = false; i = (i+1) % words.length; }
+          setTimeout(loop, del ? 45 : speed);
+        })();
+      }
+
+      // Mobile drawer + acessibilidade
+      const hamb = document.getElementById('hamb');
+      const drawer = document.getElementById('drawer');
+      const mainEl = document.querySelector('main');
+      const footEl = document.querySelector('footer');
+
+      function setDrawer(open){
+        drawer.classList.toggle('hidden', !open);
+        hamb.setAttribute('aria-expanded', String(open));
+        hamb.classList.toggle('is-open', open);
+        // isola foco
+        if (open){ mainEl?.setAttribute('inert',''); footEl?.setAttribute('inert',''); drawer.querySelector('a')?.focus(); }
+        else { mainEl?.removeAttribute('inert'); footEl?.removeAttribute('inert'); hamb.focus(); }
+      }
+
+      hamb?.addEventListener('click', () => setDrawer(drawer.classList.contains('hidden')));
+      drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !drawer.classList.contains('hidden')) setDrawer(false); });
+
+      const menuLinks = [...document.querySelectorAll('#nav-list a[href^="#"]')];
+      const targets   = menuLinks.map(a => document.querySelector(a.hash)).filter(Boolean);
+
+      function updateNavActive(){
+        const trigger = window.innerHeight * 0.35; // ajuste se quiser mais/menos pra baixo
+        let current = null;
+
+        for (const sec of targets){
+          const r = sec.getBoundingClientRect();
+          // ativa só quando a "linha" entra na seção
+          if (r.top <= trigger && r.bottom > trigger){
+            current = sec;
+            break;
+          }
+        }
+
+        menuLinks.forEach(a => a.removeAttribute('aria-current'));
+        if (current){
+          const link = menuLinks.find(a => a.hash === '#' + current.id);
+          link?.setAttribute('aria-current','true');
+        }
+      }
+
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking){
+          requestAnimationFrame(() => { updateNavActive(); ticking = false; });
+          ticking = true;
+        }
+      });
+      window.addEventListener('resize', updateNavActive);
+      window.addEventListener('hashchange', updateNavActive);
+      updateNavActive(); // inicial
+
+      const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduce) stop();
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop(); else if (!prefersReduce) start();
+      });
+
+    });
+  </script>
+</body>
+</html>
