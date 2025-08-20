@@ -273,5 +273,38 @@
   </dialog>
 
   <button id="toTop" class="btn" style="position:fixed; right:1rem; bottom:1rem; opacity:0; pointer-events:none; transition:.3s; background:#fff; box-shadow: var(--shadow);">↑ Topo</button>
+
+  <script>
+    (() => {
+        const loader = document.getElementById('app-loader');
+        if (!loader) return;
+
+        // mostra imediatamente e trava o scroll
+        loader.hidden = false;
+        document.documentElement.classList.add('lock');
+        loader.setAttribute('aria-hidden','false');
+
+        const hide = () => {
+        if (loader.dataset.done) return;           // garante uma vez só
+        loader.dataset.done = '1';
+        loader.classList.add('is-fading');         // usa seu fade do CSS
+        document.documentElement.classList.remove('lock');
+        loader.setAttribute('aria-hidden','true');
+        setTimeout(() => { loader.hidden = true; }, 350);
+        };
+
+        // sai quando a página termina de carregar / ou volta do histórico
+        window.addEventListener('load', hide, { once:true });
+        window.addEventListener('pageshow', e => { if (e.persisted) hide(); }, { once:true });
+
+        // fallback de segurança
+        setTimeout(hide, 5000);
+
+        // opcional: permite “pular” clicando no overlay
+        loader.addEventListener('click', hide, { once:true });
+    })();
+
+  </script>
+
 </body>
 </html>

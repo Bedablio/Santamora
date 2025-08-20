@@ -1,31 +1,3 @@
-(() => {
-    const loader = document.getElementById('app-loader');
-    if (!loader) return;
-
-    // mostra imediatamente e trava o scroll
-    loader.hidden = false;
-    document.documentElement.classList.add('lock');
-    loader.setAttribute('aria-hidden','false');
-
-    const hide = () => {
-    if (loader.dataset.done) return;           // garante uma vez só
-    loader.dataset.done = '1';
-    loader.classList.add('is-fading');         // usa seu fade do CSS
-    document.documentElement.classList.remove('lock');
-    loader.setAttribute('aria-hidden','true');
-    setTimeout(() => { loader.hidden = true; }, 350);
-    };
-
-    // sai quando a página termina de carregar / ou volta do histórico
-    window.addEventListener('load', hide, { once:true });
-    window.addEventListener('pageshow', e => { if (e.persisted) hide(); }, { once:true });
-
-    // fallback de segurança
-    setTimeout(hide, 5000);
-
-    // opcional: permite “pular” clicando no overlay
-    loader.addEventListener('click', hide, { once:true });
-})();
 
 // Util: on DOM ready
 const ready = (fn) => (document.readyState !== 'loading') ? fn() : document.addEventListener('DOMContentLoaded', fn);
